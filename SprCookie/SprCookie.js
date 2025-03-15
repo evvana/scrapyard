@@ -39,6 +39,10 @@ export default class SprCookie extends Sprite {
     this.stage.vars.totalCookies--;
     this.size = (350 - this.size) / 2;
     this.createClone();
+    for (let i = 0; i < 5; i++) { // Create 5 smaller cookies
+      this.createClone();
+    }
+  
   }
 
   *whenGreenFlagClicked2() {
@@ -56,12 +60,13 @@ export default class SprCookie extends Sprite {
     this.effects.ghost = 0;
     this.size = this.random(30, 50);
     this.stage.vars.xspeed = this.random(-8, 8);
-    this.stage.vars.yspeed = 10;
+    this.stage.vars.yspeed = -this.random(8, 16);
     while (true) {
       this.x += this.toNumber(this.stage.vars.xspeed);
       this.y += this.toNumber(this.stage.vars.yspeed);
       this.effects.ghost += 1;
       this.stage.vars.yspeed--;
+      yield;
       if (this.touching("edge")) {
         yield* this.wait(0.03);
         this.deleteThisClone();
